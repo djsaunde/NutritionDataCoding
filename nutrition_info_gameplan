@@ -1,0 +1,47 @@
+Brand Hierarchy
+
+    Product Category (one for each entry):
+        -listed in bold (use openpyxl to identify this).
+        -sorted alphabetically.
+        -applies to every cell below until next bolded word appears (every 
+            product below will have this product category).
+    
+    Product Description (only some entries have one):
+        -description ends with a semicolon (check for this with simple string
+            operation or regex).
+        -sorted alphabetically.
+        -applies to every cell below unti next (1) product description or (2)
+            next bolded word appears (check with two string ops / regexes).
+        -often, but not always, listed in a separate row from the product 
+            category. if it is in the same row, it will be separated by a comma.
+            discerning this will require understanding of where the bold font
+            of the product category begins and ends.
+            
+    Type (only some entries have one):
+        -appears in one of two ways:
+            (1) before the parentheses containing the Brand Name (see below),
+            in the same cell. these rows will also contain the desired nutrition
+            information.
+            (2) in the rows following the brand name, corresponding to the 
+            different variations on the brand. these rows will also contain the
+            desired nutrition information.
+            
+    Brand Name (only some entries have one):
+        -contained in parentheses and typically is italicized. "(cont.)" is a 
+        false positive (not a brand name).
+        -applies to every cell below until either (1) a new brand appears, or
+        (2) a new product description appears, or (3) a new product category
+        appears.
+        -sorted alphabetically.
+        
+    Serving Size (one for each entry):
+        -listed either as:
+            (1) in the same cell as Product Category, after the bolded text. 
+            watch out for "except as noted".
+            (2) in the same cell as Product Description, after the Product
+            Description. watch out for "except as noted".
+            (3) in the same cell as Brand name, after parenthetical text.
+        -comes in various units (e.g., pkg., pcs., tbsp., oz.)
+        -if not stated in the Brand Name cell, use default Serving Size found
+            in the Product Description. If this fails, use the default in
+            the Product Category.     
