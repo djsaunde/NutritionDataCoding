@@ -1,0 +1,16 @@
+Here are a list of recurring problems I've found while working through the
+nutrition data spreadsheets:
+
+- Bolded text in cells which do not contain product category information. For 
+example, there are some cells which have a bolded period at the end of the text,
+and this causing the script I wrote to misclassify the cell as containing
+product category information. This might be avoidable with a certain rule,
+however.
+- Certain brand names are not always encased in parentheses. For example,
+search for 'Flamethrower' in the first full workbook. This causes the script
+I wrote to lump this string into whatever type of information it is adjacent
+to. In this case, it becomes part of the serving size.
+- Sometimes there is text inside of parentheses which does not correspond to
+a brand name (e.g., '(25% fat)'), which causes a false positive on the brand name.
+- Ellipses and extra periods are found throughout, but these are typically easy
+to remove from the workbooks.
