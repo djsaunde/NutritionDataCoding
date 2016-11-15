@@ -1,3 +1,5 @@
+# Instructions
+
 Run the Jupyter Notebook, and sequentially execute the python cell blocks by
 using Shift+Enter. 
 
