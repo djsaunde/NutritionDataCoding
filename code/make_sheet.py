@@ -5,21 +5,26 @@ restructuring the data into the new workbook, all the while calling helper metho
 author: Dan Saunders (djsaunde@umass.edu)
 '''
 
-# importing packages for spreadsheet manipulation, string matching, and file system functions
-import openpyxl, re, os.path
+# importing packages for spreadsheet manipulation, string matching, file system functions, and warning functions
+import openpyxl, re, os.path, warnings
 # import all helper methods from util.py
 from util import *
 
+# ignore all warnings (super annoying being printed to the user!)
+warnings.filterwarnings("ignore")
+
+
+print '\n'
 
 # getting the name of the file to modify
 file_name = ''
 while not file_name:
     # prompt the user for a file name
-    file_name = raw_input('enter the name of the workbook to be restructured (hit Enter for previous workbook): ')
+    file_name = raw_input('Input the name of the workbook ("Enter" for previous workbook): ')
     # if the user hasn't entered a file name...
     if not file_name:
         # check for stored file name
-        with open('../documentsprevious_book.txt', 'r') as f:
+        with open('../documents/previous_book.txt', 'r') as f:
             file_name = f.readlines()[0]
             # if no filename is stored, try again from the top of the loop
             if not file_name:
@@ -33,12 +38,14 @@ with open('../documents/previous_book.txt', 'w') as f:
     f.truncate()
     f.write(file_name)
 
+    
+print '\n'
 
 # getting the name of the worksheet to modify
 worksheet = ''
 while not worksheet:
     # prompt the user for a worksheet title
-    worksheet = raw_input('enter the title of the worksheet to be restructured (hit Enter for previous worksheet): ')
+    worksheet = raw_input('Input the title of the worksheet ("Enter" for previous worksheet): ')
     # if the user hasn't entered a worksheet title...
     if not worksheet:
         # check for stored worksheet title
@@ -55,10 +62,12 @@ sheet = book[worksheet]
 with open('../documents/previous_sheet.txt', 'w') as f:
     f.truncate()
     f.write(worksheet)
+    
 
+print '\n'
 
 # if the file for the restructured output doesn't yet exist...
-if not os.path.isfile('restructured_' + file_name):
+if not os.path.isfile('../data/restructured_' + file_name):
     # we create a new workbook object
     structured_book = openpyxl.Workbook()
     # we remove the default worksheet the workbook is created with
@@ -69,7 +78,7 @@ if not os.path.isfile('restructured_' + file_name):
 # otherwise, the file for the restructured output already exists
 else:
     # so we load up the workbook which is meant to contain the restructured data
-    structured_book = openpyxl.load_workbook('restructured_' + file_name)
+    structured_book = openpyxl.load_workbook('../data/restructured_' + file_name)
 
 
 # for each sheet in the workbook to be restructured...
@@ -106,11 +115,11 @@ for i, row in enumerate(sheet):
         # this grabs the nutrition data only
         fill_nutrition_data(sheet, structured_sheet, cur_pos, i)
         # these grab, in turn, the five pieces of information laid out in the project specification
-        get_product_category(sheet, structured_sheet, cur_pos, i)
-        get_product_description(sheet, structured_sheet, cur_pos, i)
-        get_brand_name(sheet, structured_sheet, cur_pos, i)
-        get_type(sheet, structured_sheet, cur_pos, i)
-        get_serving_size(sheet, structured_sheet, cur_pos, i)
+        structured_sheet = get_product_category(sheet, structured_sheet, cur_pos, i)
+        structured_sheet = get_product_description(sheet, structured_sheet, cur_pos, i)
+        structured_sheet = get_brand_name(sheet, structured_sheet, cur_pos, i)
+        structured_sheet = get_type(sheet, structured_sheet, cur_pos, i)
+        structured_sheet = get_serving_size(sheet, structured_sheet, cur_pos, i)
         # increment the spreadsheet pointer to keep track of where we are
         cur_pos += 1
     
@@ -142,5 +151,5 @@ for char in ['F', 'G', 'H', 'I', 'J', 'K', 'L']:
 
 
 # save the workbook after we've set column widths according to their contents
-structured_book.save('restructured_' + file_name)
+structured_book.save('../data/restructured_' + file_name)
 

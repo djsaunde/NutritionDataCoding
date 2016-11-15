@@ -1,6 +1,8 @@
 '''
 This script is meant to contain helper methods for the main script, make_sheet.py, in an effort to modularize / clean up the
 development process. This module will be imported into the main script so as to use the helper methods as needed.
+
+author: Dan Saunders (djsaunde@umass.edu)
 '''
 
 import openpyxl, re
@@ -22,6 +24,8 @@ def fill_nutrition_data(sheet, structured_sheet, cur_pos, i):
         # clear out this row in the structured sheet for new data coming in
         for j in range(1, 6):
             structured_sheet.cell(row=cur_pos+1, column=j).value = ''
+            
+    return structured_sheet
 
             
 def get_product_category(sheet, structured_sheet, cur_pos, i):
@@ -58,6 +62,8 @@ def get_product_category(sheet, structured_sheet, cur_pos, i):
             if j not in pc_rows:
                 pc_rows.append(j) # add this 
             break
+            
+    return structured_sheet
 
             
 def get_product_description(sheet, structured_sheet, cur_pos, i):
@@ -133,6 +139,8 @@ def get_product_description(sheet, structured_sheet, cur_pos, i):
     # if the cell is empty after the execution of this logic, set the text in the cell equal to "NA"
     if not structured_sheet.cell(row=cur_pos+1, column=2).value:
         structured_sheet.cell(row=cur_pos+1, column=2).value = 'NA'
+        
+    return structured_sheet
 
         
 def get_description(tokens):
@@ -174,6 +182,8 @@ def get_brand_name(sheet, structured_sheet, cur_pos, i):
 
     if not structured_sheet.cell(row=cur_pos+1, column=4).value.strip():
         structured_sheet.cell(row=cur_pos+1, column=4).value = 'NA'
+        
+    return structured_sheet
 
 
 def get_type(sheet, structured_sheet, cur_pos, i):
@@ -203,6 +213,8 @@ def get_type(sheet, structured_sheet, cur_pos, i):
 
     if not structured_sheet.cell(row=cur_pos+1, column=3).value.strip():
         structured_sheet.cell(row=cur_pos+1, column=3).value = 'NA'
+        
+    return structured_sheet
 
 
 def remove_numerics(token):
@@ -243,6 +255,8 @@ def get_serving_size(sheet, structured_sheet, cur_pos, i):
                 break
             else:
                 continue
+                
+    return structured_sheet
 
                 
 def format_serving_size(tokens):
